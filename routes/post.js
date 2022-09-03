@@ -33,7 +33,10 @@ import {
   removeComment,
   getNumbers,
   updateLikes,
-  disLikes
+  disLikes,
+  editPostOnPage,
+  addToFavourites,
+  getAllFavourites
 } from "../controllers/post";
 
 router.post("/upload-image", requireSignin, canCreateRead, uploadImage);
@@ -79,4 +82,7 @@ router.get("/numbers", getNumbers);
 
 router.post("/likes",updateLikes);
 router.post("/dislikes",disLikes);
+router.put("/edit-post-onpage/:postId",editPostOnPage);
+router.post("/addtofav",addToFavourites);
+router.post("/getAllFav",getAllFavourites);
 export default router;

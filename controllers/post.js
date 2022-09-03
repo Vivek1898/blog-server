@@ -203,6 +203,37 @@ export const editPost = async (req, res) => {
   }
 };
 
+export const editPostOnPage = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { title, content, featuredImage, categories } = req.body;
+    // get category ids based on category name
+   
+
+    setTimeout(async () => {
+      const post = await Post.findByIdAndUpdate(
+        postId,
+        {
+          title,
+          slug: slugify(title),
+          content,
+        
+          featuredImage,
+        },
+        { new: true }
+      )
+        .populate("postedBy", "name")
+        .populate("categories", "name slug")
+        .populate("featuredImage", "url");
+
+      res.json(post);
+    }, 1000);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
 export const postsByAuthor = async (req, res) => {
   try {
     const posts = await Post.find({ postedBy: req.user._id })
@@ -370,6 +401,85 @@ export const disLikes = async (req,res) =>{
 
       res.json(post);
     }, 1000);
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+}
+
+
+export const addToFavourites = async (req,res) =>{
+  try {
+    console.log("Fav")
+
+    const { postTitle,postLikes,postId,userId } = req.body;
+    // const counter = req.body.likes;
+
+      const user = await User.findOne({_id:userId})
+      if( !user.favourites.includes(postId) ){
+               user.favourites.push({
+                postId:postId,
+                title:postTitle,
+                likes:postLikes
+               })
+              }
+
+              await user.save();
+             
+             res.json(user);
+
+
+    //     userId,
+    //     {
+    //       if(postId && postLikes && postTitle){
+    //        user2.favourites.push({
+    //         postId:postId
+    //        })
+    //       }
+         
+    //     },
+    //     { new: true }
+    //   )
+       
+
+    //   res.json(post);
+    // }, 1000);
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+}
+
+export const getAllFavourites = async (req,res) =>{
+  try {
+    console.log("Fav")
+
+    const { userId } = req.body;
+    // const counter = req.body.likes;
+
+      const user = await User.find({_id:userId})
+        console.log(user)
+
+              res.send(user);
+
+
+    //     userId,
+    //     {
+    //       if(postId && postLikes && postTitle){
+    //        user2.favourites.push({
+    //         postId:postId
+    //        })
+    //       }
+         
+    //     },
+    //     { new: true }
+    //   )
+       
+
+    //   res.json(post);
+    // }, 1000);
     
   } catch (error) {
     console.log(error)

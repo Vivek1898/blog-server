@@ -31,6 +31,7 @@ const userSchema = new Schema(
     },
     resetCode: "",
     posts: [{ type: ObjectId, ref: "Post" }],
+    favourites:[]
   },
   { timestamps: true }
 );
