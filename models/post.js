@@ -8,6 +8,7 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    likes:{type:Number},
     content: {},
     categories: [{ type: ObjectId, ref: "Category" }],
     published: { type: Boolean, default: true },

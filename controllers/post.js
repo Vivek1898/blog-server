@@ -92,7 +92,7 @@ export const posts = async (req, res) => {
       .populate("featuredImage")
       .populate("postedBy", "name")
       .populate("categories", "name slug")
-      .sort({ createdAt: -1 })
+      .sort({ likes: -1 })
       .limit(perPage);
     res.json(all);
   } catch (err) {
@@ -327,3 +327,52 @@ export const getNumbers = async (req, res) => {
     console.log(err);
   }
 };
+
+export const updateLikes = async (req,res) =>{
+  try {
+    console.log("abc")
+    const { postId } = req.body;
+    const counter = req.body.likes;
+    setTimeout(async () => {
+      const post = await Post.findByIdAndUpdate(
+        postId,
+        {$inc:{likes:1}
+         
+        },
+        { new: true }
+      )
+       
+
+      res.json(post);
+    }, 1000);
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+}
+
+
+export const disLikes = async (req,res) =>{
+  try {
+    console.log("abc")
+    const { postId } = req.body;
+    const counter = req.body.likes;
+    setTimeout(async () => {
+      const post = await Post.findByIdAndUpdate(
+        postId,
+        {$inc:{likes:-1}
+         
+        },
+        { new: true }
+      )
+       
+
+      res.json(post);
+    }, 1000);
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+}

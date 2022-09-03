@@ -32,6 +32,8 @@ import {
   updateComment,
   removeComment,
   getNumbers,
+  updateLikes,
+  disLikes
 } from "../controllers/post";
 
 router.post("/upload-image", requireSignin, canCreateRead, uploadImage);
@@ -73,4 +75,8 @@ router.delete(
 );
 router.get("/numbers", getNumbers);
 
+//Likes 
+
+router.post("/likes",updateLikes);
+router.post("/dislikes",disLikes);
 export default router;
